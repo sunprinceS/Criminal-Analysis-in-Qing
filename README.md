@@ -18,3 +18,14 @@ Introduction to Digital Humanity
 * 物品分佈的改變 -> 某些事件的發生？
 * 與四川八縣之比較(ref:http://www.mh.sinica.edu.tw/MHDocument/PublicationDetail/PublicationDetail_1660.pdf)
 * Method : 詞夾子抓出被竊物品的object
+
+
+ACTION ITEM
+XML parse : dragonkiss, csv, xls
+GIS : hen
+theft : sunprinceS
+
+
+
+
+
