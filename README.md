@@ -20,10 +20,7 @@ Introduction to Digital Humanity
 * Method : 詞夾子抓出被竊物品的object
 
 
-ACTION ITEM
-XML parse : dragonkiss, csv, xls
-GIS : hen
-theft : sunprinceS
+
 
 
 
