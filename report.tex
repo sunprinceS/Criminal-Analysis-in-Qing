@@ -1,0 +1,267 @@
+\documentclass{beamer}
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+%\setsansfont{Helvetica Neue}
+\setCJKmainfont{DFFN_R3.TTC}
+%\setCJKfamilyfont{hksy}{Songti TC}
+%\setCJKfamilyfont{hkss}{Weibei TC}
+%\setCJKfamilyfont{lth}{Lantinghei TC}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+\linespread{1.3}
+\allowdisplaybreaks
+
+\newcommand{\hkss}{\CJKfamily{hkss}}
+\newcommand{\hksy}{\CJKfamily{hksy}}
+\newcommand{\lth}{\CJKfamily{lth}}
+\usepackage{color}
+\usepackage{caption}
+\usepackage{tikz}
+\usepackage{marvosym} % \MVRIGHTarrow
+\usepackage{verbatim}
+\usepackage{caption}
+\usepackage{pgfplots}
+\pgfplotsset{
+  compat=newest,
+  xlabel near ticks,
+  ylabel near ticks
+}
+\usepackage{minted}
+
+\usetheme{EastLansing}
+%\usetheme{Copenhagen}
+\usetikzlibrary{positioning}
+\useinnertheme{rectangles}
+\usefonttheme{professionalfonts}
+
+\newcommand{\lw}{0.8mm}
+\setbeamercovered{transparent}
+
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\title[{數位人文期末專題報告}]
+{\LARGE{\lth{清時期的犯罪行為探討}}}
+\subtitle{\large{\textcolor[rgb]{0.00,0.50,1.00}{\hksy{Digital Humanity Final Report}}}}
+\author[{李旻恆、徐瑞陽、鄭允中、葉}]
+{{李旻恆、徐瑞陽、鄭允中、葉}}
+\date
+{\today}
+
+\begin{frame}
+\titlepage
+\end{frame}
+\begin{frame}
+\frametitle{Outline}
+\tableofcontents
+\end{frame}
+
+
+
+\section{竊盜物品觀察}
+\subsection{Introduction}
+\begin{frame}
+	\frametitle{動機}
+    我們嘗試利用《淡新檔案》中，財產侵奪的部份(共124案)，找出被偷竊及被搶盜的物品，來探討當時的社會風氣及物質生活。
+\end{frame}
+\subsection{Implementation}
+\begin{frame}{Preprocessing}
+\begin{block}{常見的pattern}
+\begin{itemize}
+    \item 單布襪參拾雙、天呢馬掛一件、銅面盆貳個...
+    \item 烏布衣、洋綠斜紋襖、紅綢裘...
+\end{itemize}
+\MVRightarrow{} 需要將這些數字(\textbf{NUMBER})與顏色(\textbf{COLOR})做\textbf{Normalization}
+\end{block}
+\end{frame}
+
+\begin{frame}{Number Normalization}
+\inputminted{python}{code/normalize.py}    
+\end{frame}
+
+\begin{frame}{Color Normalization}
+不同於數字，我們以為百年前的顏色用法，與現在不同？\\
+\MVRightarrow{}利用詞夾子夾出所有的顏色，再仿前面利用正規表示法抓出來擊破！\\\\
+\center 黃、紅、青、洋綠、洋紅、黑、紫、白、烏、藍
+\end{frame}
+
+\begin{frame}
+    有了經過正規化後的文本，詞夾子夾出被竊物品的成效大增！
+        \begin{itemize}
+        \item 6次iteration
+        \item 共232件物品(經由人工確認，並移除子字串，避免重複計算)
+        \item 31個詞夾(以量詞為主)
+        \begin{itemize}
+            \item ⊥...N件
+            \item ⊥...N雙
+            \item ...N支
+            \item 搬搶...⊥
+            \item 搶去...⊥
+        \end{itemize}
+        \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{被竊物品初步結果}
+\begin{figure}[H]
+    	\begin{center}
+        	\includegraphics[scale=0.35]{figure/word_cloud.png}
+			\caption{被竊物品文字雲}
+    	\end{center}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+    看起來成效不錯，被竊物品主要以牛與金錢為大宗。\\但有許多本質相近的物品卻被分到了不同類。\\
+    \MVRightarrow{}``分類``！採用《乾隆地方物品消費與收藏的初步研究》的分類方式
+    \begin{itemize}
+        \item 各色服飾:褲、衫、裙、襖...
+        \item 貴重金屬器皿首飾:銀器、首飾...
+        \item 各色鞋襪:元緞靴、羽綾鞋
+        \item 牲畜:耕牛、赤牛...
+        \item 布料:綢、麻布...
+        \item 日常用品:寢具、棉被、燈具...
+        \item 穿著飾品或配件:玉手環
+        \item 食物:糧食、肉類、藥材
+        \item 工具:農具、紡具
+        \item 休閑娛樂用具:洋煙、水煙...
+        \item 武器:洋銃
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{一些有趣的物品}
+    \begin{itemize}
+        \item 錫滿天光???
+        \item 巴參 :「人參菜」，專治咳嗽
+        \item 春干:一種很像花枝魷魚的東西，清明拜拜的五味菜之一
+        \item 芙蓉膏：消腫的外用中藥
+        \item 銀手指:它不是銀製品，是仙人掌
+        \item 闊頭:小船
+        \item 谷:「穀」
+    \end{itemize}
+\end{frame}
+
+\subsection{Problem we encountered}
+
+\begin{frame}
+\frametitle{遇到的問題}
+    利用詞夾子，抓出來的物品不一定為被偷被搶的物品
+\end{frame}
+
+\begin{frame}
+\frametitle{名稱過於廣義}
+\begin{itemize}
+    \item 糖、米、牛:\\
+    \textit{e.g 管押金長發船運保塹郊金長和諸號``糖````米``等貨}\\
+    \MVRightarrow{}處理方式:更\textbf{specify}一些！\\
+    因為會被列在偷竊清單上的物品，通常會描述的比較詳細
+    \begin{itemize}
+        \item 米:振榮米,合順米,錦泉米,振合米,陵茂米
+        \item 糖:恆隆糖,姜華舍糖,菁糖
+        \item 牛:耕牛,耕赤牛,水牛,赤牛
+    \end{itemize}
+    \MVRightarrow{}直接使用THDL query，把它們加至物品清單當中，並移掉糖、米、牛等子字串
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{搶劫或偷盜的``工具``}
+\begin{itemize}
+    \item 小刀:\\
+    \textit{e.g} 中途被林李將刀殺傷現在``小刀``一把呈驗
+\end{itemize}
+檢驗過所有具攻擊性的工具及武器，\\
+觀察文本後，手動調出現頻率(斧頭、小刀、洋銃)，\\
+經此調整後，武器類別便沒有分類了！
+\end{frame}
+
+\subsection{Result}
+\begin{frame}
+    \frametitle{調整後的結果}
+    共\textbf{214}類物品，各類分佈如下
+        \begin{itemize}
+        \item 各色服飾:~$55$
+        \item 貴重金屬器皿首飾:~$17$
+        \item 各色鞋襪:~$7$
+        \item 牲畜:~$5$
+        \item 布料:~$9$
+        \item 日常用品:~$37$
+        \item 穿著飾品或配件:~$13$
+        \item 食物:~$33$
+        \item 工具:~$21$
+        \item 休閑娛樂用具:~$9$
+        \item 金錢:~$8$
+        \end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{各種類相關案件出現次數分析}
+共$124$案
+\begin{figure}[H]
+    	\begin{center}
+        	\includegraphics[scale=0.35]{figure/cat_bar.png}
+			\caption{各種類相關案件次數分析}
+    	\end{center}
+	\end{figure}
+\end{frame}
+
+\subsection{Observation}
+\begin{frame}
+\frametitle{結論}
+OAO
+\end{frame}
+
+
+\section{Task}
+
+\subsection{TOEFL Listening Comprehension}
+\begin{frame}
+	\frametitle{Task Description}
+	\begin{itemize}
+	    \item Document-level task
+	    \item General task
+	    \begin{itemize}
+	        \item Overall idea (gist)
+	        \item Detail (Factoid QA)
+	        \item Inference, drawing conclusion
+	    \end{itemize}
+	\end{itemize}
+	
+\end{frame}
+
+
+
+
+\begin{frame}
+    \frametitle{Problem we encountered}
+    In addition to ASR, we use \textbf{Random Substitution} to test the accuracy, but the performace is too good...
+\end{frame}
+
+\section{Future Work}
+\begin{frame}{Future Work}
+    \begin{block}{Document Preprocessing}
+        \begin{itemize}
+            \item Compute similarity of the average of GloVe vectors between each sentence and the question.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\section{References}
+\begin{frame}
+	\frametitle{References}
+	\begin{enumerate}
+		\item 乾隆朝地方物品消費與收藏的初步研究：以四川省巴縣為例(巫仁恕,王大綱)
+	\end{enumerate}
+\end{frame}
+
+\end{document} 
