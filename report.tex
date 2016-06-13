@@ -15,20 +15,23 @@
 \newcommand{\hkss}{\CJKfamily{hkss}}
 \newcommand{\hksy}{\CJKfamily{hksy}}
 \newcommand{\lth}{\CJKfamily{lth}}
-\usepackage{color}
 \usepackage{caption}
 \usepackage{tikz}
 \usepackage{marvosym} % \MVRIGHTarrow
 \usepackage{verbatim}
 \usepackage{caption}
+\usepackage{etoolbox}
 \usepackage{pgfplots}
 \pgfplotsset{
   compat=newest,
   xlabel near ticks,
   ylabel near ticks
 }
+\usepackage{color}
+\definecolor{purple}{RGB}{138,0,184}
+\definecolor{white}{RGB}{255,255,255}
 \usepackage{minted}
-
+%\usemintedstyle{colorful}
 \usetheme{EastLansing}
 %\usetheme{Copenhagen}
 \usetikzlibrary{positioning}
@@ -52,8 +55,8 @@
 \title[{數位人文期末專題報告}]
 {\LARGE{\lth{清時期的犯罪行為探討}}}
 \subtitle{\large{\textcolor[rgb]{0.00,0.50,1.00}{\hksy{Digital Humanity Final Report}}}}
-\author[{李旻恆、徐瑞陽、鄭允中、葉}]
-{{李旻恆、徐瑞陽、鄭允中、葉}}
+\author[{李旻恆、徐瑞陽、鄭允中、葉祐銘、魏榆臻}]
+{{李旻恆、徐瑞陽、鄭允中、葉祐銘、魏榆臻}}
 \date
 {\today}
 
@@ -66,12 +69,37 @@
 \end{frame}
 
 
+%%%%deprecated%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\iffalse
+\section{淡新檔案XML分析}
+\subsection{擷取XML檔案中之地名和人名資訊}
+\begin{frame}
+	\frametitle{擷取XML檔案中之地名和人名資訊}
+	\begin{itemize}
+	    \item 程式碼實作
+	    \begin{itemize}
+	        \item 使用Java語言撰寫程式碼，使用dom4j Library，依序對"section" Tag作解析，然後再擷取"LocName"和"PersonName"這些Tag值，再把取得的地名和人名等字串用空格隔開。
+	    \end{itemize}
+	    \item 擷取地名
+	    \begin{itemize}
+	        \item 許多Tag僅節錄到一部分的資訊，例如『<LocName>北門外</LocName>保寄寓<LocName>水田庄</LocName>山東昌邑縣屬離城里』，原本於XML中已被切分成許多片段，因此難以組出完整的地名資訊。
+	    \end{itemize}
+	    \item 擷取人名
+	    \begin{itemize}
+	        \item 許多Tag僅節錄到一部分的資訊，例如『店主<PersonName>李生</PersonName>侯僱挑工挑綢』，原本於XML中完整人名只被節錄成片段，因此依Tag取得的有些是不完整人名。
+	    \end{itemize}
+	\end{itemize}
+\end{frame}
+\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+%%%%%%%%%徐瑞陽 report %%%%%%%%%%%%%%%%%%%
 \section{竊盜物品觀察}
-\subsection{Introduction}
+\subsection{Introduction \& Motivation}
 \begin{frame}
 	\frametitle{動機}
-    我們嘗試利用《淡新檔案》中，財產侵奪的部份(共124案)，找出被偷竊及被搶盜的物品，來探討當時的社會風氣及物質生活。
+    我們嘗試利用《淡新檔案》中，財產侵奪的部份(共$124$案)，找出被偷竊及被搶盜的物品，來探討當時的社會風氣及物質生活。
 \end{frame}
 \subsection{Implementation}
 \begin{frame}{Preprocessing}
@@ -91,7 +119,7 @@
 \begin{frame}{Color Normalization}
 不同於數字，我們以為百年前的顏色用法，與現在不同？\\
 \MVRightarrow{}利用詞夾子夾出所有的顏色，再仿前面利用正規表示法抓出來擊破！\\\\
-\center 黃、紅、青、洋綠、洋紅、黑、紫、白、烏、藍
+\center \color{yellow}{黃}、\color{red}{紅}、\color{cyan}{青}、\color{green}{洋綠}、\color{magenta}{洋紅}、\color{black}{黑}、\colorbox{black}{\color{white}{白}}、\color{purple}{紫}、\color{black}烏、\color{blue}{藍}
 \end{frame}
 
 \begin{frame}
@@ -121,7 +149,7 @@
 \end{frame}
 
 \begin{frame}
-    看起來成效不錯，被竊物品主要以牛與金錢為大宗。\\但有許多本質相近的物品卻被分到了不同類。\\
+    看起來成效不錯，被竊物品主要以金錢、牛、衣服為大宗。\\但有許多本質相近的物品卻被分到了不同類。\\
     \MVRightarrow{}``分類``！採用《乾隆地方物品消費與收藏的初步研究》的分類方式
     \begin{itemize}
         \item 各色服飾:褲、衫、裙、襖...
@@ -151,11 +179,9 @@
     \end{itemize}
 \end{frame}
 
-\subsection{Problem we encountered}
-
 \begin{frame}
 \frametitle{遇到的問題}
-    利用詞夾子，抓出來的物品不一定為被偷被搶的物品
+    利用詞夾子，抓出來的物品``不一定``為被偷被搶的物品
 \end{frame}
 
 \begin{frame}
@@ -176,16 +202,16 @@
 
 \begin{frame}
 \frametitle{搶劫或偷盜的``工具``}
+檢驗過所有具攻擊性的工具及武器，\\
+觀察文本後，手動調出現頻率(斧頭、小刀、洋銃)，\\
+經此調整後，武器類別便沒有分類了！
 \begin{itemize}
     \item 小刀:\\
     \textit{e.g} 中途被林李將刀殺傷現在``小刀``一把呈驗
 \end{itemize}
-檢驗過所有具攻擊性的工具及武器，\\
-觀察文本後，手動調出現頻率(斧頭、小刀、洋銃)，\\
-經此調整後，武器類別便沒有分類了！
 \end{frame}
 
-\subsection{Result}
+\subsection{Result \& Conclusion}
 \begin{frame}
     \frametitle{調整後的結果}
     共\textbf{214}類物品，各類分佈如下
@@ -214,47 +240,156 @@
     	\end{center}
 	\end{figure}
 \end{frame}
-
-\subsection{Observation}
 \begin{frame}
 \frametitle{結論}
 OAO
 \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-\section{Task}
-
-\subsection{TOEFL Listening Comprehension}
+%%%%%    鄭允中report  %%%%%%
+\section{淡新檔案文本重分類之探討}
+\subsection{Introduction \& Motivation}
 \begin{frame}
-	\frametitle{Task Description}
+	\frametitle{動機：分類與詮釋}
+	脈絡拆解
 	\begin{itemize}
-	    \item Document-level task
-	    \item General task
-	    \begin{itemize}
-	        \item Overall idea (gist)
-	        \item Detail (Factoid QA)
-	        \item Inference, drawing conclusion
-	    \end{itemize}
+	\item 淡新檔案是由西方的分類觀點來作為淡新檔案的分類標準。
+	\item 西方的分類法拆解掉了當時的脈絡。
+	\item 西方主要以民事、刑事、行政作為分類依據
 	\end{itemize}
-	
+	重建脈絡
+	\begin{itemize}
+	\item 以自動化的方法重建當時的分類
+	\item 當時中國通常以六部吏、戶、禮、兵、刑、工作為分類標準。
+	\end{itemize}
 \end{frame}
 
-
-
+\subsection{Chinese Documents Preprocessing}
+\begin{frame}
+	\frametitle{XML file parsing}
+	XML設計用來傳送及攜帶資料資訊，不用來表現或展示資料。XML可以允許使用者自行定義所需的標籤(tags)，並任意啟動定義、轉換、驗證等工作，同時可在網頁和應用程式間直接讀取及傳遞資料。
+	    \begin{itemize}
+	        \item 豐富檔案（Rich Documents）- 自定檔案描述並使其更豐富
+	        \item 後設資料（Metadata）- 描述其它檔案或網路資訊
+	        \item 配置文件（Configuration Files）- 描述軟體設定的參數
+	    \end{itemize}
+\end{frame}
 
 \begin{frame}
-    \frametitle{Problem we encountered}
-    In addition to ASR, we use \textbf{Random Substitution} to test the accuracy, but the performace is too good...
+\frametitle{XML file parsing}
+\inputminted{r}{code/xml_parsing.r}
 \end{frame}
 
-\section{Future Work}
-\begin{frame}{Future Work}
-    \begin{block}{Document Preprocessing}
-        \begin{itemize}
-            \item Compute similarity of the average of GloVe vectors between each sentence and the question.
-        \end{itemize}
-    \end{block}
+\begin{frame}
+    \frametitle{Segmentation}
+        \textit{Rwordseg} 是一個R環境下的中文分詞工具，\\使用 \textit{rJava} 調用 Java 分詞工具 \texit{Ansj}，\\採用隱式馬可夫模型（Hidden Markov Model, HMM）。\\但中文表意的字符之間沒有空格連接，因此需要中文分詞工具的協助。
 \end{frame}
+
+\begin{frame}
+    \frametitle{去除停用字}
+    停用詞出現頻繁，但它們跟文章的內容近乎無關，\\
+    造成檢索分類等方法的雜訊問題。\\
+    e.g 之、以、何...等等。
+    \begin{itemize}
+        \item 經驗法則：\\$30$ most common words account for $30\%$ of the tokens in written text
+        \item Zipf's law : rank × freq = constant
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Term Document Matrix}
+    最後產生文本探勘最常使用的 Term Document Matrix。
+    \begin{figure}[H]
+    	\begin{center}
+        	\includegraphics[scale=0.35]{figure/tdm.png}
+			\caption{Term Document Matrix}
+    	\end{center}
+	\end{figure}
+\end{frame}
+
+\subsection{Language Model Implementation}
+\begin{frame}
+    \frametitle{Language Model}
+        Generate a piece of text by generating each word. (using unigram model)
+        \begin{figure}[H]
+    	\begin{center}
+        	\includegraphics[scale=0.35]{figure/lm.png}
+			\caption{Language Model}
+    	\end{center}
+	\end{figure}
+\end{frame}
+\begin{frame}
+    \frametitle{Smoothing}
+    Assign a low probability to words not observed in the training corpus.\\
+Connecting with TF-IDF weighting and document length normalization.
+ \begin{figure}[H]
+    	\begin{center}
+        	\includegraphics[scale=0.30]{figure/math01.png}
+    	\end{center}
+	\end{figure}
+	 \begin{figure}[H]
+    	\begin{center}
+        	\includegraphics[scale=0.28]{figure/math02.png}
+    	\end{center}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Naive Bayes Classifier : word probability}
+    意義為在某一個主題下某字出現的機率。這是有smoothing的版本,\\多了1和|V|兩個參數可調節 smoothing 的影響力。
+    \begin{figure}[H]
+    	\begin{center}
+        	\includegraphics[scale=0.34]{figure/math03.png}
+    	\end{center}
+	\end{figure}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Naive Bayes Classifier : The class prior probabilities}
+    意義為在某一個主題出現的機率。這也是有smoothing的版本,\\多了1和|C|兩個參數可調節 smoothing 的影響力。
+    \begin{figure}[H]
+    	\begin{center}
+        	\includegraphics[scale=0.40]{figure/math04.png}
+    	\end{center}
+	\end{figure}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Using Naive Bayes Classifier}
+    算出某主題出現在該文章的機率,\\再用貝氏定理反轉成該文章是某主題的機率。
+    \begin{itemize}
+        \item 分母不用算，因為每一個要比較的機率值除的分母都一樣
+        \item 分子取log相加，不然會有超出精度的問題。
+    \end{itemize}
+    \begin{figure}[H]
+    	\begin{center}
+        	\includegraphics[scale=0.33]{figure/math05.png}
+    	\end{center}
+	\end{figure}
+\end{frame}
+
+\subsection{Result \& Conclusion}
+\begin{frame}
+    \frametitle{Result}
+    藉由建立古代六部分類的分類器（在此簡單以刑事為例），\\
+    可以將西方分類法中民事、行政的案件放入分類器，\\即可篩選出可疑的檔案做人工精確的分類定位。
+    \begin{figure}[H]
+    	\begin{center}
+        	\includegraphics[scale=0.35]{figure/result.png}
+			\caption{Result}
+    	\end{center}
+	\end{figure}
+\end{frame}
+\begin{frame}
+    \frametitle{結論}
+    藉由中國與西方案件分類重定位，釐清兩者間刑事案件的分野，以重新釐清不同文化對於刑事事件的詮釋。
+\end{frame}
+
+
+
+
 
 \section{References}
 \begin{frame}
