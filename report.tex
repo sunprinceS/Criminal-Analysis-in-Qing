@@ -2,11 +2,7 @@
 
 \usepackage{fontspec}
 \usepackage{xeCJK}
-%\setsansfont{Helvetica Neue}
 \setCJKmainfont{DFFN_R3.TTC}
-%\setCJKfamilyfont{hksy}{Songti TC}
-%\setCJKfamilyfont{hkss}{Weibei TC}
-%\setCJKfamilyfont{lth}{Lantinghei TC}
 \XeTeXlinebreaklocale "zh"
 \XeTeXlinebreakskip = 0pt plus 1pt
 \linespread{1.3}
@@ -31,7 +27,6 @@
 \definecolor{purple}{RGB}{138,0,184}
 \definecolor{white}{RGB}{255,255,255}
 \usepackage{minted}
-%\usemintedstyle{colorful}
 \usetheme{EastLansing}
 %\usetheme{Copenhagen}
 \usetikzlibrary{positioning}
@@ -99,7 +94,7 @@
 \subsection{Introduction \& Motivation}
 \begin{frame}
 	\frametitle{動機}
-    我們嘗試利用《淡新檔案》中，財產侵奪的部份(共$124$案)，找出被偷竊及被搶盜的物品，來探討當時的社會風氣及物質生活。
+    我們嘗試利用《淡新檔案》中，財產侵奪的部份(共$120$案)，找出被偷竊及被搶盜的物品，來探討$19$世紀初（道光$30$年 $\sim$ 光緒$20$年）台灣北部的社會風氣及物質生活。
 \end{frame}
 \subsection{Implementation}
 \begin{frame}{Preprocessing}
@@ -181,7 +176,11 @@
 
 \begin{frame}
 \frametitle{遇到的問題}
-    利用詞夾子，抓出來的物品``不一定``為被偷被搶的物品
+    \begin{itemize}
+        \item 利用詞夾子，抓出來的物品``不一定``為被偷被搶的物品
+        \item ``案外案``，該次案件中可能會提到犯人的前科記錄（沒有處理...）。
+    \end{itemize}
+    
 \end{frame}
 
 \begin{frame}
@@ -210,14 +209,22 @@
     \textit{e.g} 中途被林李將刀殺傷現在``小刀``一把呈驗
 \end{itemize}
 \end{frame}
-
+\begin{frame}
+    \frametitle{前科紀錄}
+    文本中有部份牽扯到``案外案``，與前科相關，\\
+    這部份並沒有處理，觀察文本後才發現此問題...。\\
+    e.g\\
+    \begin{itemize}
+        \item 
+    \end{itemize}
+\end{frame}
 \subsection{Result \& Conclusion}
 \begin{frame}
     \frametitle{調整後的結果}
-    共\textbf{214}類物品，各類分佈如下
+    共\textbf{$214$}類物品，各類分佈如下
         \begin{itemize}
         \item 各色服飾:~$55$
-        \item 貴重金屬器皿首飾:~$17$
+        \item 貴重金屬器皿首飾:~$16$
         \item 各色鞋襪:~$7$
         \item 牲畜:~$5$
         \item 布料:~$9$
@@ -226,13 +233,13 @@
         \item 食物:~$33$
         \item 工具:~$21$
         \item 休閑娛樂用具:~$9$
-        \item 金錢:~$8$
+        \item 金錢:~$9$
         \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{各種類相關案件出現次數分析}
-共$124$案
+共$120$案，而每個種類在一個案件中，至多計算一次。
 \begin{figure}[H]
     	\begin{center}
         	\includegraphics[scale=0.35]{figure/cat_bar.png}
@@ -240,9 +247,50 @@
     	\end{center}
 	\end{figure}
 \end{frame}
+
+\begin{frame}
+    \frametitle{使用貨幣的變化}
+    自開港通商(咸豐$10$年)以來，外國的銀大量流入，\\我們想從竊盜物品中觀察貨幣的變化趨勢。\\
+    錢的種類:佃租,壽金,祠祀租,佛銀,銅錢,洋銀,課銀,番銀,銀元
+    \begin{itemize}
+        \item 銀: 佛銀,洋銀,課銀,番銀,銀元
+        \item 銅: 銅錢
+    \end{itemize}
+\end{frame}
+\begin{frame}
+    \frametitle{被竊奪貨幣的變化(圖)}
+    \begin{tikzpicture}
+\begin{axis}[
+width=12cm,
+height=7cm,
+ybar,
+bar width=30pt,
+enlargelimits=0.15,
+legend style={at={(0.5,-0.15)},
+anchor=north,legend columns=-1},
+ylabel={出現次數},
+symbolic x coords={咸豐,同治,光緒},
+xtick=data,
+nodes near coords,
+nodes near coords align={vertical},
+]
+\addplot
+coordinates {(咸豐,6) (同治,11)
+(光緒,52)};
+\addplot
+coordinates {(咸豐,1) (同治,5)
+(光緒,17)};
+\legend{銀,銅}
+\end{axis}
+\end{tikzpicture}
+\end{frame}
+
 \begin{frame}
 \frametitle{結論}
-OAO
+\begin{itemize}
+    \item 台灣仍為相當農業的社會。
+    \item 滬尾開港後，白銀被竊比率的增高，反映了使用貨幣的變化\\(但銅錢被竊的比率也增高，只是沒白銀這麼明顯)。
+\end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
